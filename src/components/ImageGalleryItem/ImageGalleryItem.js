@@ -1,54 +1,45 @@
-import React, { Component } from 'react';
+import { useState } from 'react';
 import PropTypes from 'prop-types';
 import Modal from '../Modal/Modal';
 import css from './ImageGalleryItem.module.css';
 
-class ImageGalleryItem extends Component {
-  state = {
-    activeImageId: 0,
-    showModal: false,
+const ImageGalleryItem = ({ onGallery }) => {
+  const [activeImageId, setActiveImageId] = useState(0);
+  const [showModal, setShowModal] = useState(false);
+
+  const handleBigImage = index => {
+    setActiveImageId(index);
+    toggleModal();
   };
 
-  handleBigImage = index => {
-    this.setState({ activeImageId: index });
-    this.toggleModal();
+  const toggleModal = () => {
+    setShowModal(showModal => !showModal);
   };
 
-  toggleModal = () => {
-    this.setState(({ showModal }) => ({
-      showModal: !showModal,
-    }));
-  };
+  const activeImage = onGallery[activeImageId];
+  return (
+    <>
+      {onGallery.map(({ id, webformatURL }, index) => (
+        <li className={css.ImageGalleryItem} key={id}>
+          <img
+            onClick={() => handleBigImage(index)}
+            className={css.image}
+            src={webformatURL}
+            alt=""
+          />
+        </li>
+      ))}
+      {showModal && (
+        <Modal onClose={toggleModal}>
+          <img src={activeImage.largeImageURL} alt="" />
+        </Modal>
+      )}
+    </>
+  );
+};
 
-  render() {
-    const { onGallery } = this.props;
-    const { activeImageId, showModal } = this.state;
-    const activeImage = onGallery[activeImageId];
-    return (
-      <>
-        {onGallery.map(({ id, webformatURL }, index) => (
-          <li className={css.ImageGalleryItem} key={id}>
-            <img
-              onClick={() => this.handleBigImage(index)}
-              className={css.image}
-              src={webformatURL}
-              alt=""
-            />
-          </li>
-        ))}
-        {showModal && (
-          <Modal onClose={this.toggleModal}>
-            <img src={activeImage.largeImageURL} alt="" />
-          </Modal>
-        )}
-      </>
-    );
-  }
-}
 ImageGalleryItem.propTypes = {
-  state: PropTypes.shape({
-    activeImageId: PropTypes.number.isRequired,
-    showModal: PropTypes.bool.isRequired,
-  }),
+  activeImageId: PropTypes.number.isRequired,
+  showModal: PropTypes.bool.isRequired,
 };
 export default ImageGalleryItem;
