@@ -39,7 +39,7 @@ const ImageGalleryItem = ({ onGallery }) => {
 };
 
 ImageGalleryItem.propTypes = {
-  activeImageId: PropTypes.number.isRequired,
-  showModal: PropTypes.bool.isRequired,
+  activeImageId: PropTypes.number,
+  showModal: PropTypes.bool,
 };
 export default ImageGalleryItem;
