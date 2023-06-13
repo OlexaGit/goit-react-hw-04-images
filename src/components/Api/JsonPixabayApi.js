@@ -9,6 +9,5 @@ export const getGallery = async (search, page) => {
   const { data } = await axios.get(
     `https://pixabay.com/api/?q=${search}&page=${page}&key=${myApiKey}&image_type=${imageType}&orientation=${orientation}&per_page=${per_page}`
   );
-  // const {data} = await response.json();
   return data;
 };
