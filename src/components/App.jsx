@@ -21,10 +21,10 @@ export const App = () => {
     if (!searchInput) {
       return;
     }
-    Api(searchInput, page);
+    getImages(searchInput, page);
   }, [searchInput, page]);
 
-  const Api = async (searchInput, page) => {
+  const getImages = async (searchInput, page) => {
     try {
       setIsLoaderVisible(true);
       const data = await getGallery(searchInput, page);
